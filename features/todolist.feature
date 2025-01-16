@@ -1,11 +1,11 @@
 Feature:As a user, I want to use the TodoMVC app so that I can efficiently manage and organize my tasks
-  Scenario: Adding an item to an empty Todo list
-    Given the Todo list is empty
-    When I add a Todo item labeled "Buy Grocery"
-    Then the list displays the item "Buy Grocery"
-    And the summary shows "1 item left!"
-    And the filter is set to "All" with no filters "Completed" or "Active" applied
-    When I click on the cross symbol next to the Todo item
+#  Scenario: Adding an item to an empty Todo list
+#    Given the Todo list is empty
+#    When I add a Todo item labeled "Buy Grocery"
+#    Then the list displays the item "Buy Grocery"
+#    And the summary shows "1 item left!"
+#    And the filter is set to "All" with no filters "Completed" or "Active" applied
+#    When I click on the cross symbol next to the Todo item
 
     # Scenario: Adding three items to an empty list
   Scenario: Empty list can have three items added
@@ -17,10 +17,12 @@ Feature:As a user, I want to use the TodoMVC app so that I can efficiently manag
 
 
 
-#  # Scenario 3: Marking an item as complete
-#  Scenario: Item completion changes the list
-#    Given a Todo list with items "Finish writing the assignment" & "Finalize assignment details"
-#    When the first item is marked as complete
-#    Then only the second item is listed as active
-#    And the list summary is "1 item left"
-#    And "Clear completed" is available
+  Scenario: Clear all items from a populated Todo list
+    When I click on the select all toggle button
+    Then the list summary is "0 items left!"
+    And "Clear completed" is clicked
+    Then the list is empty
+
+
+
+
