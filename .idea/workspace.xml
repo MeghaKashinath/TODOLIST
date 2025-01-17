@@ -5,16 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45460cc6-5495-40ad-8738-79a054397a68" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/features/complete_todo_items.feature" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/Adding_Todos.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/adding_todo_items.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/Marking_Todo_as_Complete.feature" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/features/environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/environment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/item_completion.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/zitem_completion.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/steps/item_completion.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/steps/todosteps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/features/todolist.feature" beforeDir="false" afterPath="$PROJECT_DIR$/features/todolist.feature" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/TESTS-item_completion.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/reports/TESTS-todolist.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/test_report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/steps/todo_step_definitions.py" beforeDir="false" afterPath="$PROJECT_DIR$/features/steps/todo_step_definitions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/todolist.feature" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/features/zitem_completion.feature" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/reports/test_report.html" beforeDir="false" afterPath="$PROJECT_DIR$/reports/test_report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_runnner.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_runner.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +33,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/features/Adding_Todos.feature" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/features/Clearing_Completed_Todos.feature" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/features/Filtering_Todos.feature" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/features/Marking_Todo_as_Complete.feature" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/features/Removing_Todos.feature" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/features/todolist.feature" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/features/zitem_completion.feature" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -55,6 +59,11 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/features" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

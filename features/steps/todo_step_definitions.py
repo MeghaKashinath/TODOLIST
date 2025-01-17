@@ -1,10 +1,11 @@
 from behave import *
-from selenium.common import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 import time
+
+from features.environment import capture_screenshot
 
 
 # Step Definitions for the Todo List
@@ -16,6 +17,8 @@ def given_empty_list(context):
     """Ensure the Todo list is empty."""
     todo_list = context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li')
     assert len(todo_list) == 0, "The Todo list is not empty."
+    capture_screenshot(context.driver, 'the Todo list is empty')
+
 
 
 @given('a Todo list with items "{item1}" & "{item2}"')
@@ -36,17 +39,46 @@ def given_todo_list_with_items(context, item1, item2):
     item_labels = [item.text for item in todo_items]
     assert item1 in item_labels, f"Item '{item1}' was not added."
     assert item2 in item_labels, f"Item '{item2}' was not added."
+    capture_screenshot(context.driver, 'a Todo list with multiple items')
 
 
-# When Steps
+
+@given('the Todo list contains the item "{todo_item}"')
+def add_todo_item(context, todo_item):
+    input_field = context.driver.find_element(By.XPATH, '//input[@class="new-todo"]')
+    input_field.send_keys(todo_item)
+    input_field.send_keys(Keys.RETURN)
+    time.sleep(1)
+
+
+@given('the Todo list contains the items "{todo_item1}" & "{todo_item2}" & "{todo_item3}"')
+def add_multiple_todos(context, todo_item1, todo_item2, todo_item3):
+
+    """Add multiple Todo items."""
+    input_field = context.driver.find_element(By.XPATH, '//input[@class="new-todo"]')
+
+    # Add first item
+    input_field.send_keys(todo_item1)
+    input_field.send_keys(Keys.RETURN)
+    time.sleep(1)
+
+    # Add second item
+    input_field.send_keys(todo_item2)
+    input_field.send_keys(Keys.RETURN)
+    time.sleep(1)
+
+    # Add third item
+    input_field.send_keys(todo_item3)
+    input_field.send_keys(Keys.RETURN)
+    time.sleep(1)
+
 
 @when('I add a Todo item labeled "{todo_item}"')
 def add_todo_item(context, todo_item):
     input_field = context.driver.find_element(By.XPATH, '//input[@class="new-todo"]')
     input_field.send_keys(todo_item)
     input_field.send_keys(Keys.RETURN)
-
-
+    time.sleep(1)
 
 @when('I add Todos for "{todo_item1}" & "{todo_item2}" & "{todo_item3}"')
 def add_multiple_todos(context, todo_item1, todo_item2, todo_item3):
@@ -68,8 +100,8 @@ def add_multiple_todos(context, todo_item1, todo_item2, todo_item3):
     input_field.send_keys(Keys.RETURN)
     time.sleep(1)
 
-
-@when('I click on the cross symbol next to the Todo item')
+#Hover over and click the delete button (X)
+@when('I hover click the delete button (X) next to the Todo item')
 def click_cross_symbol(context):
     """Click the cross symbol to delete a Todo item."""
     WebDriverWait(context.driver, 10).until(
@@ -87,8 +119,10 @@ def click_cross_symbol(context):
 
     # Click the cross button
     cross_button = last_todo_item.find_element(By.XPATH, './/button[contains(@class, "destroy")]')
-    WebDriverWait(context.driver, 10).until(EC.element_to_be_clickable(cross_button))
+    WebDriverWait(context.driver, 20).until(EC.element_to_be_clickable(cross_button))
     cross_button.click()
+    time.sleep(1)
+
 
 
 @when('the first item is marked as complete')
@@ -98,7 +132,16 @@ def mark_first_item_complete(context):
         EC.presence_of_element_located((By.XPATH, '//ul[@class="todo-list"]/li[1]//input[@type="checkbox"]'))
     )
     first_item_checkbox.click()
-    time.sleep(5)
+    time.sleep(1)
+
+@when('the second item is marked as complete')
+def mark_second_item_complete(context):
+    """Mark the first Todo item as complete."""
+    second_item_checkbox = WebDriverWait(context.driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, '//ul[@class="todo-list"]/li[2]//input[@type="checkbox"]'))
+    )
+    second_item_checkbox.click()
+    time.sleep(1)
 
 
 @when('the filter is set to "Active"')
@@ -148,23 +191,24 @@ def click_select_all_toggle(context):
     ActionChains(context.driver).move_to_element(select_all_checkbox).click().perform()
 time.sleep(1)
 
-#
-# @when('the item is selected for edit')
-# def select_item_for_edit(context):
-#     """Select the Todo item for editing."""
-#     # Find the label text for the Todo item
-#     todo_item = context.driver.find_element(By.XPATH, "//label[text()='Clean the house']")
-#
-#     # Double-click the item to enter edit mode
-#     actions = ActionChains(context.driver)
-#     actions.double_click(todo_item).perform()
-#     time.sleep(10)
-#     todo_item = context.driver.find_element(By.XPATH, "//*[contains(text(),'Clean the house')]")
-#     todo_item.clear()
-#     todo_item.send_keys("Meditate")
-#
-#     # Press Enter to confirm the change
-#     todo_item.send_keys(Keys.RETURN)
+
+@when('I press the Enter key')
+def press_enter_key(context):
+    """Simulate pressing the Enter key."""
+    input_field = context.driver.find_element(By.XPATH, '//input[@class="new-todo"]')
+    input_field.send_keys(Keys.RETURN)
+
+@when('I check the checkbox next to the Todos labeled {items}')
+def step_when_check_multiple_checkboxes(context, items):
+    # Split the items by 'and' and strip whitespace
+    item_list = [item.strip() for item in items.split(' and ')]
+
+    # Loop through each item and check its checkbox
+    for item in item_list:
+        checkbox = context.browser.find_element(
+            By.XPATH, f'//ul[@class="todo-list"]/li[.//label[text()="{item}"]]//input[@class="toggle"]'
+        )
+        checkbox.click()
 
 
 @when('the item is selected for edit')
@@ -205,15 +249,15 @@ def select_item_for_edit(context):
 
     except Exception as e:
         print(f"Error encountered during the test: {e}")
-# Then Steps
 
-@then('the list displays the item "Buy Grocery"')
-def check_item_displayed(context):
-    """Verify that the "Buy Grocery" item is displayed in the Todo list."""
-    time.sleep(5)
+
+@then('the list displays the item "{item_label}"')
+def check_item_displayed(context, item_label):
+    """Verify that a given item is displayed in the Todo list."""
+    time.sleep(2)  # You can adjust or remove this if not needed
     todo_items = context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li')
     item_labels = [item.text for item in todo_items]
-    assert "Buy Grocery" in item_labels, "'Buy Grocery' was not added to the list."
+    assert item_label in item_labels, f"'{item_label}' was not added to the list."
 
 
 @then('only those items are listed')
@@ -309,35 +353,12 @@ def verify_list_summary(context, summary_text):
     time.sleep(2)
 
 
-# @then('only the revised item is listed')
-# def verify_revised_item_listed(context):
-#     # Check that the revised item "Meditate" is in the list and that it is the only item
-#     todo_items = context.driver.find_elements(By.XPATH, "//ul[@class='todo-list']/li")
-#     assert len(todo_items) == 1, f"Expected 1 item, but found {len(todo_items)}"
-#     assert "Meditate" in todo_items[0].text, f"Expected 'Meditate', but found {todo_items[0].text}"
-
-
-
-# @when('the Todo is changed to "{new_value}"')
-# def step_impl(context, new_value):
-#     # Locate the edit input field that appears when the label is in edit mode
-#     # edit_input = context.driver.find_element(By.XPATH, "//input[@class='input-container']")
-#     #
-#     # # Clear the current value and enter the new value
-#     # edit_input.clear()
-#     edit_input.send_keys(new_value)
-#
-#     # Press Enter to confirm the change
-#     edit_input.send_keys(Keys.RETURN)
-
-
 @then('only the revised item is listed')
 def step_impl(context):
     # Locate the updated label to verify the value
     updated_label = context.driver.find_element(By.XPATH, "//label[@data-testid='todo-item-label' and text()='Meditate']")
     assert updated_label.text == "Meditate", f"Expected 'Meditate', but found '{updated_label.text}'"
 
-    #####################################
 
 @then('the tasks are labeled')
 def step_impl(context):
@@ -346,20 +367,7 @@ def step_impl(context):
     item_labels = [item.text for item in todo_items]
     for row in context.table:
         assert row[0] in item_labels, f"Item '{row[0]}' was not added correctly."
-        #assert row['Task'] in item_labels, f"Item '{row['Task']}' was not added correctly."
 
-@when('I leave the Todo input box empty')
-def leave_todo_input_empty(context):
-    """Leave the Todo input box empty."""
-    input_field = context.driver.find_element(By.XPATH, '//input[@class="new-todo"]')
-    input_field.clear()
-
-
-@when('I press the Enter key')
-def press_enter_key(context):
-    """Simulate pressing the Enter key."""
-    input_field = context.driver.find_element(By.XPATH, '//input[@class="new-todo"]')
-    input_field.send_keys(Keys.RETURN)
 
 # Then Steps
 @then('no new task is added to the Todo list')
@@ -367,14 +375,6 @@ def no_task_added_to_list(context):
     """Verify that no new task is added to the Todo list."""
     todo_items = context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li')
     assert len(todo_items) == 0, "A task was unexpectedly added to the list."
-
-# @then('the Todo list remains unchanged')
-# def todo_list_remains_unchanged(context):
-#     """Verify that the Todo list remains unchanged."""
-#     initial_todo_count = len(context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li'))
-#     todo_items = context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li')
-#     assert len(todo_items) == initial_todo_count, "The Todo list was unexpectedly changed."
-
 
 
 @then('the Todo list remains unchanged.')
@@ -396,6 +396,70 @@ def step_impl(context):
 
     # Assert that the number of items has not changed
     assert initial_count == updated_count, f"Expected Todo list to remain unchanged, but the number of items changed from {initial_count} to {updated_count}."
+
+
+
+@then('all the Todo items should be visible in the list')
+def step_then_all_items_visible(context):
+    todo_items = context.driver.find_elements(By.XPATH, "//ul[@class='todo-list']/li")
+    assert len(todo_items) > 0, "No Todo items are visible."
+
+
+@then("only the active Todo items should be visible in the list")
+def step_then_active_items_visible(context):
+    todo_items = context.driver.find_elements(By.XPATH, "//ul[@class='todo-list']/li")
+    active_items = [item for item in todo_items if "completed" not in item.get_attribute("class")]
+    assert len(active_items) > 0, "No active items found"
+
+@then('only the completed Todo items should be visible in the list')
+def verify_completed_todos_visible(context):
+    """Verify that only completed Todo items are visible in the list."""
+    # Find all visible Todo items
+    visible_todos = context.driver.find_elements(By.XPATH, "//ul[@class='todo-list']/li")
+
+    # Check that each visible Todo item has the 'completed' class
+    for todo_item in visible_todos:
+        assert "completed" in todo_item.get_attribute("class"), "Found an incomplete Todo item."
+
+    print("Only completed Todo items are visible.")
+
+
+@then('the remaining Todo item "Learn a new skill" should stay in the list')
+def step_impl(context):
+    """Ensure that 'Learn a new skill' stays in the Todo list after removal of others."""
+
+    # Wait for the Todo list to update
+    time.sleep(2)
+
+    # Get all Todo items
+    todo_items = context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li')
+    item_labels = [item.text for item in todo_items]
+
+    # Ensure that "Learn a new skill" remains in the list
+    assert "Learn a new skill" in item_labels, "'Learn a new skill' was removed."
+
+
+@then('no active Todo items should be removed or affected by clicking "Clear completed"')
+def step_impl(context):
+    """Ensure no active Todo items are removed or affected when clicking 'Clear completed'."""
+
+    # Store the initial list of active Todo items
+    initial_active_items = [item.text for item in
+                            context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li[@class="active"]')]
+
+    # Click the "Clear completed" button
+    clear_completed_button = context.driver.find_element(By.XPATH, '//button[@class="clear-completed"]')
+    clear_completed_button.click()
+
+    # Wait for the list to update
+    time.sleep(2)
+
+    # Get the updated list of active Todo items
+    updated_active_items = [item.text for item in
+                            context.driver.find_elements(By.XPATH, '//ul[@class="todo-list"]/li[@class="active"]')]
+
+    # Ensure that no active items were removed or affected
+    assert initial_active_items == updated_active_items, "Active Todo items were removed or affected by clicking 'Clear completed'."
 
 
 

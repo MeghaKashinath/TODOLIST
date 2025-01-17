@@ -10,7 +10,8 @@ Scenario: Add a single Todo item when the Todo list is initially empty
     Then the list displays the item "Buy Grocery"
     And the summary shows "1 item left!"
     And the filter is set to "All" with no filters "Completed" or "Active" applied
-    When I click on the cross symbol next to the Todo item
+    When I click on the select all toggle button
+    Then "Clear completed" is clicked
 
 Scenario: Add multiple Todo items to the list and verify that all items are displayed in the correct order.
     Given the Todo list is empty
@@ -27,8 +28,8 @@ Scenario: Add multiple Todo items to the list and verify that all items are disp
 
 
 Scenario: Ensure that adding a blank Todo is not allowed
-    When I leave the Todo input box empty
-    And I press the Enter key
+    Given the Todo list is empty
+    When I press the Enter key
     Then no new task is added to the Todo list
     And the Todo list remains unchanged.
 
