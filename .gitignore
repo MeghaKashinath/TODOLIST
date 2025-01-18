@@ -15,7 +15,7 @@ dist/
 .coverage
 nosetests.xml
 junit-*.xml
-.idea/
+.idea/*
 *.swp
 *.swo
 .DS_Store

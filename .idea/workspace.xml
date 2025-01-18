@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="45460cc6-5495-40ad-8738-79a054397a68" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/failure_screenshot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/page_source.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/a Todo list with items &quot;{item1}&quot; &amp; &quot;{item2}&quot;_2025-01-17_23-18-10.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/a Todo list with multiple items_2025-01-17_23-22-14.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-17-00.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-17-07.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-17-13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-20-08.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-21-06.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-21-13.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-21-20.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshots/the Todo list is empty_2025-01-17_23-23-27.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

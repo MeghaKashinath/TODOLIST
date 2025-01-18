@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    environment {
+        VIRTUAL_ENV = ".venv"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+            }
+        }
+
+        stage('Set Up Environment') {
+            steps {
+                script {
+                    sh """
+                        python3 -m venv ${env.VIRTUAL_ENV}
+                        source ${env.VIRTUAL_ENV}/bin/activate
+                        pip install -r requirements.txt
+                    """
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    sh """
+                        source ${env.VIRTUAL_ENV}/bin/activate
+                        behave --junit --junit-directory reports/
+                    """
+                }
+            }
+        }
+
+        stage('Publish Test Results') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'reports',
+                    reportFiles: 'report.html',
+                    reportName: 'Test Report'
+                ])
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs() // Clean workspace
+        }
+    }
+}
