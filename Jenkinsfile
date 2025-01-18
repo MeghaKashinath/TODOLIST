@@ -1,8 +1,6 @@
 pipeline {
     agent any
     environment {
-        // You can define BROWSER as an environment variable here
-        // For running on Chrome
         CHROME_BROWSER = 'chrome'
         FIREFOX_BROWSER = 'firefox'
     }
@@ -23,6 +21,7 @@ pipeline {
             steps {
                 sh '''
                 . venv/bin/activate
+                mkdir -p reports
                 python3 test_runner.py
                 '''
             }
@@ -34,8 +33,14 @@ pipeline {
             steps {
                 sh '''
                 . venv/bin/activate
+                mkdir -p reports
                 python3 test_runner.py
                 '''
+            }
+        }
+        stage('Archive Test Reports') {
+            steps {
+                archiveArtifacts allowEmptyArchive: true, artifacts: 'reports/**/*.html', onlyIfSuccessful: true
             }
         }
     }
