@@ -4,7 +4,6 @@ from behave.__main__ import main
 
 
 def run_behave_tests():
-    # Check if a feature file argument is passed
     if len(sys.argv) > 1:
         feature_file = sys.argv[1]  # Get the feature file from the command line
         options = [
